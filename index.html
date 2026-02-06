@@ -16,41 +16,91 @@
             <p class="game-subtitle">Dodge the bugs. Reach the water.</p>
         </header>
 
-        <div class="game-container">
-            <div class="stats-bar">
-                <div class="stat" id="stat-score">
-                    <span class="stat-label">SCORE</span>
-                    <span class="stat-value" id="score-display">0</span>
-                </div>
-                <div class="stat" id="stat-level">
-                    <span class="stat-label">LEVEL</span>
-                    <span class="stat-value" id="level-display">1</span>
-                </div>
-                <div class="stat" id="stat-lives">
-                    <span class="stat-label">LIVES</span>
-                    <span class="stat-value" id="lives-display"></span>
-                </div>
+        <!-- Character Selection Screen -->
+        <div class="screen char-select-screen" id="char-select-screen">
+            <h2 class="screen-heading">Choose Your Hero</h2>
+            <div class="char-grid" id="char-grid">
+                <button class="char-card selected" data-sprite="images/char-cat-girl.png" data-name="Cat Girl">
+                    <div class="char-img-wrap">
+                        <img src="images/char-cat-girl.png" alt="Cat Girl">
+                    </div>
+                    <span class="char-name">Cat Girl</span>
+                </button>
+                <button class="char-card" data-sprite="images/char-boy.png" data-name="Boy">
+                    <div class="char-img-wrap">
+                        <img src="images/char-boy.png" alt="Boy">
+                    </div>
+                    <span class="char-name">Boy</span>
+                </button>
+                <button class="char-card" data-sprite="images/char-pink-girl.png" data-name="Pink Girl">
+                    <div class="char-img-wrap">
+                        <img src="images/char-pink-girl.png" alt="Pink Girl">
+                    </div>
+                    <span class="char-name">Pink Girl</span>
+                </button>
+                <button class="char-card" data-sprite="images/char-horn-girl.png" data-name="Horn Girl">
+                    <div class="char-img-wrap">
+                        <img src="images/char-horn-girl.png" alt="Horn Girl">
+                    </div>
+                    <span class="char-name">Horn Girl</span>
+                </button>
+                <button class="char-card" data-sprite="images/char-princess-girl.png" data-name="Princess">
+                    <div class="char-img-wrap">
+                        <img src="images/char-princess-girl.png" alt="Princess">
+                    </div>
+                    <span class="char-name">Princess</span>
+                </button>
             </div>
-            <div class="canvas-wrapper" id="canvas-container">
-                <!-- Canvas is injected here by engine.js -->
+            <div class="select-hint">
+                <div class="select-hint-row">
+                    <kbd>&larr;</kbd><kbd>&rarr;</kbd>
+                    <span class="controls-label">to browse</span>
+                </div>
+                <div class="select-hint-row">
+                    <kbd class="key-wide">Enter</kbd>
+                    <span class="controls-label">to play</span>
+                </div>
             </div>
         </div>
 
-        <footer class="game-controls">
-            <div class="controls-hint">
-                <div class="key-group">
-                    <kbd>&uarr;</kbd>
-                    <div class="key-row">
-                        <kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd>
+        <!-- Game Screen (hidden initially) -->
+        <div class="screen game-screen hidden" id="game-screen">
+            <div class="game-container" id="game-container-box">
+                <div class="stats-bar">
+                    <div class="stat" id="stat-score">
+                        <span class="stat-label">SCORE</span>
+                        <span class="stat-value" id="score-display">0</span>
+                    </div>
+                    <div class="stat" id="stat-level">
+                        <span class="stat-label">LEVEL</span>
+                        <span class="stat-value" id="level-display">1</span>
+                    </div>
+                    <div class="stat" id="stat-lives">
+                        <span class="stat-label">LIVES</span>
+                        <span class="stat-value" id="lives-display"></span>
                     </div>
                 </div>
-                <span class="controls-label">Arrow keys to move</span>
+                <div class="canvas-wrapper" id="canvas-container">
+                    <!-- Canvas is injected here by engine.js -->
+                </div>
             </div>
-            <div class="controls-hint">
-                <kbd class="key-wide">Enter</kbd>
-                <span class="controls-label">Restart after game over</span>
-            </div>
-        </footer>
+
+            <footer class="game-controls">
+                <div class="controls-hint">
+                    <div class="key-group">
+                        <kbd>&uarr;</kbd>
+                        <div class="key-row">
+                            <kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd>
+                        </div>
+                    </div>
+                    <span class="controls-label">Arrow keys to move</span>
+                </div>
+                <div class="controls-hint">
+                    <kbd class="key-wide">Enter</kbd>
+                    <span class="controls-label">Restart after game over</span>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script src="js/resources.js"></script>

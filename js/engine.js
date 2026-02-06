@@ -10,7 +10,6 @@ var Engine = (function(global) {
     canvas.width = 505;
     canvas.height = 606;
 
-    // Insert canvas into the container div instead of body
     var container = doc.getElementById('canvas-container');
     if (container) {
         container.appendChild(canvas);
@@ -30,14 +29,16 @@ var Engine = (function(global) {
     }
 
     function init() {
-        reset();
         lastTime = Date.now();
         main();
     }
 
     function update(dt) {
-        updateEntities(dt);
-        allEnemies = cleanupEnemies(allEnemies);
+        // Only update game entities when playing
+        if (game.state === 0) {
+            updateEntities(dt);
+            allEnemies = cleanupEnemies(allEnemies);
+        }
     }
 
     function updateEntities(dt) {
@@ -82,6 +83,9 @@ var Engine = (function(global) {
     }
 
     function renderEntities() {
+        // Only render game entities when not in char select
+        if (game.state === 2) return;
+
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
@@ -89,16 +93,17 @@ var Engine = (function(global) {
         game.render();
     }
 
-    function reset() {
-        // noop
-    }
-
+    // Load all character sprites upfront
     Resources.load([
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-cat-girl.png',
+        'images/char-boy.png',
+        'images/char-pink-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-princess-girl.png',
         'images/Star.png',
         'images/Heart.png'
     ]);
