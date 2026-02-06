@@ -34,11 +34,11 @@ var Engine = (function(global) {
     }
 
     function update(dt) {
-        // Only update game entities when playing
         if (game.state === 0) {
             updateEntities(dt);
             allEnemies = cleanupEnemies(allEnemies);
         }
+        game.update(dt);
     }
 
     function updateEntities(dt) {
@@ -52,7 +52,7 @@ var Engine = (function(global) {
         for (var i = 0; i < enemies.length; i++) {
             while (enemies[i].x > canvas.width) {
                 var row = (219 - enemies[i].y) / 83;
-                var enemy = new Enemy(row);
+                var enemy = new Enemy(row, game.level);
                 enemies.splice(i, 1);
                 enemies.push(enemy);
             }
@@ -83,7 +83,6 @@ var Engine = (function(global) {
     }
 
     function renderEntities() {
-        // Only render game entities when not in char select
         if (game.state === 2) return;
 
         allEnemies.forEach(function(enemy) {
@@ -91,14 +90,17 @@ var Engine = (function(global) {
         });
         player.render();
         game.render();
+        renderFloatingTexts();
     }
 
-    // Load all character sprites upfront
     Resources.load([
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
+        'images/Rock.png',
+        'images/Gem Blue.png',
+        'images/Gem Green.png',
+        'images/Gem Orange.png',
         'images/char-cat-girl.png',
         'images/char-boy.png',
         'images/char-pink-girl.png',

@@ -13,7 +13,7 @@
     <div class="game-wrapper">
         <header class="game-header">
             <h1 class="game-title">Bug Crosser</h1>
-            <p class="game-subtitle">Dodge the bugs. Reach the water.</p>
+            <p class="game-subtitle">Dodge the enemies. Reach the water.</p>
         </header>
 
         <!-- Character Selection Screen -->
@@ -71,9 +71,17 @@
                         <span class="stat-label">SCORE</span>
                         <span class="stat-value" id="score-display">0</span>
                     </div>
+                    <div class="stat" id="stat-combo">
+                        <span class="stat-label">COMBO</span>
+                        <span class="stat-value" id="combo-display">-</span>
+                    </div>
                     <div class="stat" id="stat-level">
                         <span class="stat-label">LEVEL</span>
                         <span class="stat-value" id="level-display">1</span>
+                    </div>
+                    <div class="stat" id="stat-best">
+                        <span class="stat-label">BEST</span>
+                        <span class="stat-value" id="best-display">0</span>
                     </div>
                     <div class="stat" id="stat-lives">
                         <span class="stat-label">LIVES</span>
@@ -93,11 +101,11 @@
                             <kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd>
                         </div>
                     </div>
-                    <span class="controls-label">Arrow keys to move</span>
+                    <span class="controls-label">Move</span>
                 </div>
                 <div class="controls-hint">
                     <kbd class="key-wide">Enter</kbd>
-                    <span class="controls-label">Restart after game over</span>
+                    <span class="controls-label">New hero</span>
                 </div>
             </footer>
         </div>

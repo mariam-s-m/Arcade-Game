@@ -10,14 +10,31 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%);
     font-family: 'Inter', -apple-system, sans-serif;
     color: #e0e0e0;
     overflow: hidden;
 }
 
-/* === Animated background stars === */
+/* === Animated mesh background === */
 body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(72, 49, 212, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255, 107, 107, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 40% 80%, rgba(78, 205, 196, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(255, 190, 11, 0.1) 0%, transparent 40%);
+    animation: meshDrift 12s ease-in-out infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+}
+
+body::after {
     content: '';
     position: fixed;
     top: 0;
@@ -25,20 +42,28 @@ body::before {
     width: 100%;
     height: 100%;
     background-image:
-        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
-        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
-        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
-        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
-        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
-    background-size: 200px 100px;
-    animation: twinkle 4s ease-in-out infinite alternate;
+        radial-gradient(1px 1px at 10% 10%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(1px 1px at 30% 70%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(2px 2px at 50% 30%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1px 1px at 90% 40%, rgba(255,255,255,0.4), transparent),
+        radial-gradient(2px 2px at 15% 90%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.5), transparent),
+        radial-gradient(1px 1px at 45% 55%, rgba(255,255,255,0.3), transparent);
+    background-size: 300px 200px;
+    animation: twinkle 3s ease-in-out infinite alternate;
     z-index: 0;
     pointer-events: none;
 }
 
+@keyframes meshDrift {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(3%, 2%) rotate(2deg); }
+}
+
 @keyframes twinkle {
-    0% { opacity: 0.3; }
-    100% { opacity: 0.8; }
+    0% { opacity: 0.2; }
+    100% { opacity: 0.7; }
 }
 
 /* === Game Wrapper === */
@@ -60,18 +85,24 @@ body::before {
 .game-title {
     font-family: 'Press Start 2P', monospace;
     font-size: 28px;
-    background: linear-gradient(180deg, #ffd700 0%, #ff8c00 100%);
+    background: linear-gradient(180deg, #ff6b6b 0%, #feca57 50%, #ff9ff3 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-shadow: none;
-    filter: drop-shadow(0 2px 4px rgba(255, 165, 0, 0.4));
+    filter: drop-shadow(0 2px 8px rgba(255, 107, 107, 0.5));
     letter-spacing: 2px;
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0% { filter: drop-shadow(0 2px 8px rgba(255, 107, 107, 0.5)); }
+    100% { filter: drop-shadow(0 2px 16px rgba(254, 202, 87, 0.6)); }
 }
 
 .game-subtitle {
     font-size: 13px;
-    color: #8888aa;
+    color: #7c8db5;
     margin-top: 6px;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -96,10 +127,10 @@ body::before {
 .screen-heading {
     font-family: 'Press Start 2P', monospace;
     font-size: 16px;
-    color: #00e5ff;
+    color: #4ecdc4;
     text-transform: uppercase;
     letter-spacing: 3px;
-    text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    text-shadow: 0 0 20px rgba(78, 205, 196, 0.4);
 }
 
 .char-grid {
@@ -132,11 +163,11 @@ body::before {
 }
 
 .char-card.selected {
-    background: rgba(0, 229, 255, 0.1);
-    border-color: #00e5ff;
+    background: rgba(78, 205, 196, 0.12);
+    border-color: #4ecdc4;
     box-shadow:
-        0 0 20px rgba(0, 229, 255, 0.25),
-        inset 0 0 20px rgba(0, 229, 255, 0.05);
+        0 0 20px rgba(78, 205, 196, 0.3),
+        inset 0 0 20px rgba(78, 205, 196, 0.05);
     transform: translateY(-6px) scale(1.05);
 }
 
@@ -157,20 +188,20 @@ body::before {
 }
 
 .char-card.selected .char-img-wrap img {
-    filter: drop-shadow(0 4px 12px rgba(0, 229, 255, 0.4));
+    filter: drop-shadow(0 4px 12px rgba(78, 205, 196, 0.5));
 }
 
 .char-name {
     font-family: 'Press Start 2P', monospace;
     font-size: 7px;
-    color: #8888aa;
+    color: #7c8db5;
     letter-spacing: 1px;
     text-transform: uppercase;
     white-space: nowrap;
 }
 
 .char-card.selected .char-name {
-    color: #00e5ff;
+    color: #4ecdc4;
 }
 
 .select-hint {
@@ -187,12 +218,12 @@ body::before {
 
 /* === Game Container === */
 .game-container {
-    background: rgba(15, 15, 35, 0.6);
+    background: rgba(10, 15, 30, 0.7);
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(78, 205, 196, 0.12);
     box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 60px rgba(100, 80, 200, 0.15),
+        0 8px 32px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(78, 205, 196, 0.08),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
     overflow: hidden;
     backdrop-filter: blur(10px);
@@ -203,8 +234,8 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 20px;
-    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 16px;
+    background: rgba(0, 0, 0, 0.4);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -213,44 +244,36 @@ body::before {
     flex-direction: column;
     align-items: center;
     gap: 2px;
+    min-width: 70px;
 }
 
 .stat-label {
     font-family: 'Press Start 2P', monospace;
-    font-size: 8px;
-    color: #6666aa;
+    font-size: 7px;
+    color: #5a6a8a;
     letter-spacing: 2px;
 }
 
 .stat-value {
     font-family: 'Press Start 2P', monospace;
-    font-size: 18px;
-    color: #fff;
-}
-
-#stat-score .stat-value {
-    color: #ffd700;
-}
-
-#stat-level .stat-value {
-    color: #00e5ff;
-}
-
-#stat-lives .stat-value {
-    color: #ff4081;
     font-size: 16px;
-    letter-spacing: 2px;
+    color: #fff;
+    transition: transform 0.15s ease;
 }
+
+.stat-value.pop {
+    transform: scale(1.3);
+}
+
+#stat-score .stat-value { color: #feca57; }
+#stat-level .stat-value { color: #4ecdc4; }
+#stat-best .stat-value { color: #ff9ff3; }
+#stat-combo .stat-value { color: #ff6b6b; font-size: 14px; }
+#stat-lives .stat-value { color: #ff6b6b; font-size: 14px; letter-spacing: 2px; }
 
 /* === Canvas === */
-.canvas-wrapper {
-    line-height: 0;
-}
-
-.canvas-wrapper canvas {
-    display: block;
-    border-radius: 0;
-}
+.canvas-wrapper { line-height: 0; }
+.canvas-wrapper canvas { display: block; }
 
 /* === Controls Footer === */
 .game-controls {
@@ -286,12 +309,12 @@ kbd {
     min-width: 28px;
     height: 28px;
     padding: 0 6px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 6px;
     font-family: 'Inter', sans-serif;
     font-size: 12px;
-    color: #aaa;
+    color: #7c8db5;
     box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
 }
 
@@ -303,14 +326,12 @@ kbd.key-wide {
 
 .controls-label {
     font-size: 11px;
-    color: #555577;
+    color: #4a5a7a;
     letter-spacing: 1px;
 }
 
 /* === Screen Transitions === */
-.screen {
-    animation: fadeIn 0.4s ease-out;
-}
+.screen { animation: fadeIn 0.4s ease-out; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(12px); }
@@ -319,14 +340,12 @@ kbd.key-wide {
 
 /* === Pulse animation for level-up === */
 @keyframes pulse-glow {
-    0% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(100,80,200,0.15); }
-    50% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 80px rgba(0,229,255,0.4); }
-    100% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(100,80,200,0.15); }
+    0% { box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 60px rgba(78,205,196,0.08); }
+    50% { box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 80px rgba(78,205,196,0.4), 0 0 120px rgba(254,202,87,0.2); }
+    100% { box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 60px rgba(78,205,196,0.08); }
 }
 
-.game-container.level-up {
-    animation: pulse-glow 0.6s ease-out;
-}
+.game-container.level-up { animation: pulse-glow 0.6s ease-out; }
 
 /* === Shake animation for death === */
 @keyframes shake {
@@ -337,9 +356,7 @@ kbd.key-wide {
     80% { transform: translateX(4px); }
 }
 
-.game-container.shake {
-    animation: shake 0.4s ease-out;
-}
+.game-container.shake { animation: shake 0.4s ease-out; }
 
 /* === Bounce animation for selected card === */
 @keyframes selectBounce {
@@ -348,6 +365,4 @@ kbd.key-wide {
     100% { transform: translateY(-6px) scale(1.05); }
 }
 
-.char-card.just-selected {
-    animation: selectBounce 0.35s ease-out;
-}
+.char-card.just-selected { animation: selectBounce 0.35s ease-out; }
