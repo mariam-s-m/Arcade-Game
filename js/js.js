@@ -13,19 +13,17 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen
 Enemy.prototype.render = function() {
-ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // The character our player controls
-var Player = function( x,y,speed) {
-this.sprite = 'images/char-cat-girl.png';
-// TODO: determian the player posistion
+var Player = function(x, y, speed) {
+    this.sprite = 'images/char-cat-girl.png';
     this.x = 200;
     this.y = 350;
     this.EndX = this.x;
     this.EndY = this.y;
-    this.speed = 700;   // speed can be changed this value for simple level 
-    // to block the player 
+    this.speed = 700;
     this.direction = 'stop';
 };
 
@@ -37,50 +35,42 @@ Player.prototype.update = function(dt) {
 };
 
 // Draw the player on the screen
-   Player.prototype.render = function() {
-   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 // Update the player's position
-// Parameter: dt, a time delta between ticks
 Player.prototype.updatePosition = function(dt) {
-    if (this.direction === 'left') { 
+    if (this.direction === 'left') {
         this.x -= this.speed * dt;
-
-    if (this.x <= this.EndX - 110) {
-        this.x = this.EndX - 110;
-        this.EndX = this.x;
-        this.direction = 'stop';
+        if (this.x <= this.EndX - 110) {
+            this.x = this.EndX - 110;
+            this.EndX = this.x;
+            this.direction = 'stop';
         }
     }
-
     else if (this.direction === 'up') {
         this.y -= this.speed * dt;
-
-    if (this.y <= this.EndY - 85) {
-        this.y = this.EndY - 85;
-        this.EndY = this.y;
-        this.direction = 'stop';
+        if (this.y <= this.EndY - 85) {
+            this.y = this.EndY - 85;
+            this.EndY = this.y;
+            this.direction = 'stop';
         }
     }
-
     else if (this.direction === 'right') {
         this.x += this.speed * dt;
-
-    if (this.x >= this.EndX + 110) {
-        this.x = this.EndX + 110;
-        this.EndX = this.x;
-        this.direction = 'stop';
+        if (this.x >= this.EndX + 110) {
+            this.x = this.EndX + 110;
+            this.EndX = this.x;
+            this.direction = 'stop';
         }
     }
-
     else if (this.direction === 'down') {
         this.y += this.speed * dt;
-
-    if (this.y >= this.EndY + 85) {
-        this.y = this.EndY + 85;
-        this.EndY = this.y;
-        this.direction = 'stop';
+        if (this.y >= this.EndY + 85) {
+            this.y = this.EndY + 85;
+            this.EndY = this.y;
+            this.direction = 'stop';
         }
     }
 };
@@ -98,30 +88,31 @@ Player.prototype.enemyCollision = function() {
 // Check for collision with water
 Player.prototype.waterCollision = function() {
     if (this.y < 20) {
-    //TODO : control the counter of level 
-    this.respawn();
-    game.levelUp();
-}
+        this.respawn();
+        game.levelUp();
+    }
 };
 
 Player.prototype.death = function() {
     this.respawn();
-    game.death(); };
+    game.death();
+};
+
 Player.prototype.respawn = function() {
     this.direction = 'stop';
     this.x = 200;
     this.y = 400;
     this.EndX = this.x;
     this.EndY = this.y;
-}
+};
 
 // Handle input
 Player.prototype.handleInput = function(key) {
     if (this.direction === 'stop') {
-    if ((key === 'left' && this.x > 0) ||
-       (key === 'up' && this.y > 0) ||
-       (key === 'right' && this.x < 500) ||
-       (key === 'down' && this.y < 400)) {
+        if ((key === 'left' && this.x > 0) ||
+           (key === 'up' && this.y > 0) ||
+           (key === 'right' && this.x < 500) ||
+           (key === 'down' && this.y < 400)) {
             this.direction = key;
             this.EndX = this.x;
             this.EndY = this.y;
@@ -129,7 +120,35 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-// game info and functions
+// Helper to update the HTML stats bar
+function updateHUD() {
+    var scoreEl = document.getElementById('score-display');
+    var levelEl = document.getElementById('level-display');
+    var livesEl = document.getElementById('lives-display');
+    if (scoreEl) scoreEl.textContent = game.score;
+    if (levelEl) levelEl.textContent = game.level;
+    if (livesEl) {
+        var hearts = '';
+        for (var i = 0; i < game.Stars; i++) hearts += '\u2764';
+        livesEl.textContent = hearts;
+    }
+}
+
+// Trigger CSS animation on the game container
+function triggerAnimation(className) {
+    var container = document.querySelector('.game-container');
+    if (container) {
+        container.classList.remove(className);
+        // Force reflow to restart animation
+        void container.offsetWidth;
+        container.classList.add(className);
+        setTimeout(function() {
+            container.classList.remove(className);
+        }, 700);
+    }
+}
+
+// Game info and functions
 var Game = function() {
     this.level = 1;
     this.Stars = 3;
@@ -138,25 +157,45 @@ var Game = function() {
 };
 
 Game.prototype.render = function() {
-    // Draw Stars as time for life
-    for (i = 0; i < this.Stars; i++){
-    ctx.drawImage(Resources.get('images/Star.png'), 450 - i * 30, 530, 30, 50);
-    }
-    // Draw score
-    ctx.fillText(this.score, 30, 570);
-    // Draw game over text
+    updateHUD();
+
+    // Draw game over overlay on canvas
     if (this.state) {
-  ctx.fillStyle="yellow";
-  ctx.font = "bold 50px verdana, sans-serif ";
-  ctx.fillText("Game Over" , 100, 350);
+        // Dark overlay
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+        ctx.fillRect(0, 0, 505, 606);
+
+        // "GAME OVER" text
+        ctx.save();
+        ctx.shadowColor = '#ff4081';
+        ctx.shadowBlur = 30;
+        ctx.font = 'bold 48px "Press Start 2P", monospace';
+        ctx.fillStyle = '#ff4081';
+        ctx.textAlign = 'center';
+        ctx.fillText('GAME', 252, 250);
+        ctx.fillText('OVER', 252, 310);
+
+        // Score display
+        ctx.shadowColor = 'transparent';
+        ctx.font = '16px "Press Start 2P", monospace';
+        ctx.fillStyle = '#ffd700';
+        ctx.fillText('SCORE: ' + this.score, 252, 370);
+
+        // Restart hint
+        ctx.font = '12px "Press Start 2P", monospace';
+        ctx.fillStyle = '#8888aa';
+        ctx.fillText('Press any arrow key', 252, 430);
+        ctx.fillText('to try again', 252, 455);
+        ctx.restore();
     }
 };
 
 Game.prototype.handleInput = function(key) {
     this.state = 0;
+    this.level = 1;
     this.Stars = 3;
     this.score = 0;
-    for (i = 0; i <= 3; i++) {
+    for (var i = 0; i <= 3; i++) {
         var enemy = new Enemy(i);
         allEnemies.push(enemy);
         enemy = new Enemy(i);
@@ -166,35 +205,36 @@ Game.prototype.handleInput = function(key) {
 
 Game.prototype.levelUp = function() {
     this.level++;
-    this.score += 10; // start count from 10 ++
+    this.score += 10;
+    triggerAnimation('level-up');
 };
 
 // Updates game info when the player dies
 Game.prototype.death = function() {
     this.Stars--;
+    triggerAnimation('shake');
     if (this.Stars <= 0) {
-    this.gameOver();
+        this.gameOver();
     }
 };
 
 Game.prototype.gameOver = function() {
     this.state = 1;
     allEnemies = [];
-    console.log("Game Over Press On Ok To Try Again");
 };
 
 // Now instantiate your objects.
 var game = new Game();
 var player = new Player();
 var allEnemies = [];
-for (i = 0; i <= 2; i++) {
+for (var i = 0; i <= 2; i++) {
     var enemy = new Enemy(i);
     allEnemies.push(enemy);
     enemy = new Enemy(i);
     allEnemies.push(enemy);
 }
 
-// Player.handleInput() method. You don't need to modify this.
+// Input listener
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -203,7 +243,7 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    if (game.state){
+    if (game.state) {
         game.handleInput(allowedKeys[e.keyCode]);
     }
     else {

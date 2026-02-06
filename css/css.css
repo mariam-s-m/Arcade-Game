@@ -1,7 +1,224 @@
+/* === Reset & Base === */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #e0e0e0;
+    overflow: hidden;
+}
+
+/* === Animated background stars === */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 160px 30px, #fff, transparent);
+    background-size: 200px 100px;
+    animation: twinkle 4s ease-in-out infinite alternate;
+    z-index: 0;
+    pointer-events: none;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 0.8; }
+}
+
+/* === Game Wrapper === */
+.game-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+}
+
+/* === Header === */
+.game-header {
     text-align: center;
-    padding-top: 2%;
-    background: url('../images/BG.jpg');  
-    
+}
+
+.game-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 28px;
+    background: linear-gradient(180deg, #ffd700 0%, #ff8c00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 2px 4px rgba(255, 165, 0, 0.4));
+    letter-spacing: 2px;
+}
+
+.game-subtitle {
+    font-size: 13px;
+    color: #8888aa;
+    margin-top: 6px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* === Game Container === */
+.game-container {
+    background: rgba(15, 15, 35, 0.6);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(100, 80, 200, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+/* === Stats Bar === */
+.stats-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.stat-label {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    color: #6666aa;
+    letter-spacing: 2px;
+}
+
+.stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: #fff;
+}
+
+#stat-score .stat-value {
+    color: #ffd700;
+}
+
+#stat-level .stat-value {
+    color: #00e5ff;
+}
+
+#stat-lives .stat-value {
+    color: #ff4081;
+    font-size: 16px;
+    letter-spacing: 2px;
+}
+
+/* === Canvas === */
+.canvas-wrapper {
+    line-height: 0;
+}
+
+.canvas-wrapper canvas {
+    display: block;
+    border-radius: 0;
+}
+
+/* === Controls Footer === */
+.game-controls {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4px;
+}
+
+.controls-hint {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.key-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.key-row {
+    display: flex;
+    gap: 3px;
+}
+
+kbd {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 28px;
+    height: 28px;
+    padding: 0 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    color: #aaa;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+kbd.key-wide {
+    min-width: 64px;
+    font-size: 10px;
+    font-family: 'Press Start 2P', monospace;
+}
+
+.controls-label {
+    font-size: 11px;
+    color: #555577;
+    letter-spacing: 1px;
+}
+
+/* === Pulse animation for level-up (triggered by JS) === */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(100,80,200,0.15); }
+    50% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 80px rgba(0,229,255,0.4); }
+    100% { box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 0 60px rgba(100,80,200,0.15); }
+}
+
+.game-container.level-up {
+    animation: pulse-glow 0.6s ease-out;
+}
+
+/* === Shake animation for death === */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20% { transform: translateX(-6px); }
+    40% { transform: translateX(6px); }
+    60% { transform: translateX(-4px); }
+    80% { transform: translateX(4px); }
+}
+
+.game-container.shake {
+    animation: shake 0.4s ease-out;
 }

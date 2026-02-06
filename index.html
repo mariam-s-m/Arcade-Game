@@ -1,16 +1,60 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Frogger Arcade Game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Crosser - Arcade Game</title>
     <link rel="stylesheet" href="css/css.css">
     <link rel="icon" href="images/icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="game-wrapper">
+        <header class="game-header">
+            <h1 class="game-title">Bug Crosser</h1>
+            <p class="game-subtitle">Dodge the bugs. Reach the water.</p>
+        </header>
+
+        <div class="game-container">
+            <div class="stats-bar">
+                <div class="stat" id="stat-score">
+                    <span class="stat-label">SCORE</span>
+                    <span class="stat-value" id="score-display">0</span>
+                </div>
+                <div class="stat" id="stat-level">
+                    <span class="stat-label">LEVEL</span>
+                    <span class="stat-value" id="level-display">1</span>
+                </div>
+                <div class="stat" id="stat-lives">
+                    <span class="stat-label">LIVES</span>
+                    <span class="stat-value" id="lives-display"></span>
+                </div>
+            </div>
+            <div class="canvas-wrapper" id="canvas-container">
+                <!-- Canvas is injected here by engine.js -->
+            </div>
+        </div>
+
+        <footer class="game-controls">
+            <div class="controls-hint">
+                <div class="key-group">
+                    <kbd>&uarr;</kbd>
+                    <div class="key-row">
+                        <kbd>&larr;</kbd><kbd>&darr;</kbd><kbd>&rarr;</kbd>
+                    </div>
+                </div>
+                <span class="controls-label">Arrow keys to move</span>
+            </div>
+            <div class="controls-hint">
+                <kbd class="key-wide">Enter</kbd>
+                <span class="controls-label">Restart after game over</span>
+            </div>
+        </footer>
+    </div>
+
     <script src="js/resources.js"></script>
     <script src="js/js.js"></script>
     <script src="js/engine.js"></script>
-
 </body>
 </html>
